@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ScheduleSync - Conflict Resolver</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="app">
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <div class="brand">
+            <div class="logo">✦</div>
+            <div>
+                <h2>ScheduleSync</h2>
+                <p>Conflict Resolver</p>
+            </div>
+        </div>
+        <nav>
+            <button class="nav active" data-page="resolver">⌂ <span>Resolver</span></button>
+            <button class="nav" data-page="comparison">⇄ <span>Prompt Comparison</span></button>
+            <button class="nav" data-page="evaluation">◈ <span>Evaluation</span></button>
+            <button class="nav" data-page="documentation">▤ <span>Documentation</span></button>
+        </nav>
+        <div class="sidebar-bottom">
+            <div class="online"><span></span>Live API</div>
+            <p>Team 2 • SEMM 7</p>
+        </div>
+    </aside>
+    
+    <!-- MAIN -->
+    <main>
+        <header class="topbar">
+            <div class="mobile-menu" id="mobileMenu">☰</div>
+            <div>
+                <small>AI SCHEDULING LAB</small>
+                <h1 id="pageTitle">Schedule Conflict Resolver</h1>
+            </div>
+            <div class="top-badge" id="statusBadge">● Ready</div>
+        </header>
+        
+        <!-- RESOLVER PAGE -->
+        <div class="page resolver-page">
+            <section class="hero">
+                <div>
+                    <div class="tag">✦ Priority-aware scheduling</div>
+                    <h2>Resolve conflicts. <br><span>Keep your day organized.</span></h2>
+                    <p>Enter overlapping events, assign priorities, and review the proposed conflict-free schedule.</p>
+                </div>
+                <div class="hero-card">
+                    <div class="shield">✓</div>
+                    <div>
+                        <b>Guardrails enabled</b>
+                        <small>Input validation & output verification</small>
+                    </div>
+                </div>
+            </section>
+            
+            <section class="stats">
+                <div class="stat">
+                    <div class="stat-icon blue">▣</div>
+                    <div><small>Total Events</small><strong id="eventCount">3</strong></div>
+                </div>
+                <div class="stat">
+                    <div class="stat-icon orange">!</div>
+                    <div><small>Conflicts</small><strong id="conflictCount">2</strong></div>
+                </div>
+                <div class="stat">
+                    <div class="stat-icon green">✓</div>
+                    <div><small>Schedule Status</small><strong id="status">Needs Review</strong></div>
+                </div>
+            </section>
+            
+            <section class="workspace">
+                <div class="card input-card">
+                    <div class="card-head">
+                        <div>
+                            <h3>Schedule Events</h3>
+                            <p>Add the events you want to resolve.</p>
+                        </div>
+                        <button class="add-btn" id="addEvent">+ Add Event</button>
+                    </div>
+                    <div id="eventList"></div>
+                    <div class="validation" id="validation"></div>
+                    <button class="resolve-btn" id="resolveBtn">✦ Resolve Conflicts</button>
+                </div>
+                
+                <div class="card result-card">
+                    <div class="card-head">
+                        <div>
+                            <h3>Schedule Preview</h3>
+                            <p id="resultSubtitle">Current input schedule</p>
+                        </div>
+                        <span class="badge warning" id="resultBadge">2 Conflicts</span>
+                    </div>
+                    <div class="timeline" id="timeline"></div>
+                    <div class="verify">
+                        <div class="verify-icon" id="verifyIcon">◷</div>
+                        <div>
+                            <b id="verifyTitle">Waiting for resolution</b>
+                            <small id="verifyText">Run the resolver to verify the final schedule.</small>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <section class="card explanation">
+                <div class="card-head">
+                    <div><h3>Why were events moved?</h3><p>Explainable schedule changes appear here after resolution.</p></div>
+                    <span class="badge green-badge">Explainable</span>
+                </div>
+                <div class="empty-explanation" id="explanation">
+                    <div>◎</div>
+                    <p>No changes yet. Resolve the schedule to see explanations.</p>
+                </div>
+            </section>
+        </div>
+        
+        <!-- PROMPT COMPARISON -->
+        <div class="page hidden" id="comparisonPage">
+            <section class="page-heading">
+                <div class="tag">Prompt engineering</div>
+                <h2>Prompt Comparison</h2>
+                <p>Compare baseline (V1) with refined (V3) prompt using explicit rules R1-R7.</p>
+            </section>
+            <div class="two-columns">
+                <div class="card prompt">
+                    <div class="prompt-label">VERSION 01</div>
+                    <h3>Baseline Prompt</h3>
+                    <pre>Create a conflict-free schedule from the provided events. Preserve high-priority events where possible. Explain every change.</pre>
+                    <div class="metric bad"><span>Conflicts remaining</span><b>2</b></div>
+                </div>
+                <div class="card prompt selected">
+                    <div class="prompt-label">VERSION 03</div>
+                    <h3>Refined (Explicit Rules)</h3>
+                    <pre>Apply rules R1-R7: Normalize to UTC, hard constraints, dependencies, move before drop, priority, tie-break, placement. Few-shot examples included.</pre>
+                    <div class="metric good"><span>Conflicts remaining</span><b>0</b></div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-head">
+                    <div><h3>Iteration Flow</h3><p>Prompt improvement history.</p></div>
+                </div>
+                <div class="steps">
+                    <div><b>01</b><span>Initial prompt</span><small>Basic scheduling instruction</small></div>
+                    <div><b>02</b><span>Few-shot examples</span><small>Added 3 diverse examples</small></div>
+                    <div><b>03</b><span>Explicit rules R1-R7</span><small>Numbered rule order</small></div>
+                    <div><b>04</b><span>Verification</span><small>Code checks output independently</small></div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- EVALUATION -->
+        <div class="page hidden" id="evaluationPage">
+            <section class="page-heading">
+                <div class="tag">Measured results</div>
+                <h2>Evaluation</h2>
+                <p>20 test cases: simple conflicts, time zones, dependencies, impossible cases, invalid inputs.</p>
+            </section>
+            <div class="metric-banner">
+                <div><small>Prompt V1</small><strong>70%</strong><span>7 / 10</span></div>
+                <i>→</i>
+                <div><small>Final Prompt V3</small><strong>100%</strong><span>20 / 20</span></div>
+            </div>
+            <div class="card table-card">
+                <div class="card-head">
+                    <div><h3>Test Results</h3><p>All 20 test cases pass with V3 prompt.</p></div>
+                </div>
+                <table>
+                    <thead>
+                        <tr><th>Category</th><th>Cases</th><th>V1</th><th>V3</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Simple Conflicts</td><td>T01-T03</td><td>✓</td><td>✓</td></tr>
+                        <tr><td>Time Zones</td><td>T04-T06</td><td>✗</td><td>✓</td></tr>
+                        <tr><td>Dependencies</td><td>T07-T09</td><td>✗</td><td>✓</td></tr>
+                        <tr><td>Impossible</td><td>T10-T13</td><td>✗</td><td>✓</td></tr>
+                        <tr><td>Invalid Input</td><td>T14-T17</td><td>✗</td><td>✓</td></tr>
+                        <tr><td>Robustness</td><td>T18-T20</td><td>✗</td><td>✓</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <!-- DOCUMENTATION -->
+        <div class="page hidden" id="documentationPage">
+            <section class="page-heading">
+                <div class="tag">Team deliverable</div>
+                <h2>Documentation</h2>
+                <p>Complete workflow, rules, and team contributions for the hackathon.</p>
+            </section>
+            <div class="docs">
+                <div class="card doc">
+                    <h3>Problem</h3>
+                    <p>Given overlapping events with priorities, create a conflict-free schedule and explain every change using explicit rules.</p>
+                </div>
+                <div class="card doc">
+                    <h3>Workflow</h3>
+                    <div class="flow">Input → Validation → AI Resolve → Verification → Explanation</div>
+                </div>
+                <div class="card doc">
+                    <h3>The Rules (R1-R7)</h3>
+                    <ul>
+                        <li><b>R1:</b> Normalize to UTC, use half-open intervals</li>
+                        <li><b>R2:</b> Hard constraints (fixed, mandatory, duration, window)</li>
+                        <li><b>R3:</b> Dependencies and inherited priority</li>
+                        <li><b>R4:</b> Move before drop</li>
+                        <li><b>R5:</b> Lower priority yields slot</li>
+                        <li><b>R6:</b> Tie-break (mandatory, earlier time, alphabetical)</li>
+                        <li><b>R7:</b> Placement (earliest free slot after original start)</li>
+                    </ul>
+                </div>
+                <div class="card doc">
+                    <h3>Team Contributions</h3>
+                    <ul>
+                        <li><b>Yurica (Member 1):</b> Prompts V1/V3/V4, few-shot examples, extraction</li>
+                        <li><b>Shiva (Member 3):</b> Test cases (20), validation, verification logic</li>
+                        <li><b>Tirth (Member 4):</b> Frontend UI/UX, sidebar, navigation, timeline</li>
+                        <li><b>Om (Member 2):</b> Backend integration, API, Flask, LLM calls, guardrails</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+<div class="toast" id="toast"></div>
+<script src="script.js"></script>
+</body>
+</html>
