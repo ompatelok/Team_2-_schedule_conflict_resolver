@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>ScheduleSync - Conflict Resolver</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="app">
+
+    <!-- ================= SIDEBAR ================= -->
+    <aside class="sidebar">
+
+        <div class="brand">
+            <div class="logo">✦</div>
+
+            <div>
+                <h2>ScheduleSync</h2>
+                <p>Conflict Resolver</p>
+            </div>
+        </div>
+
+        <nav>
+
+            <button class="nav active" data-page="resolver">
+                ⌂
+                <span>Resolver</span>
+            </button>
+
+            <button class="nav" data-page="comparison">
+                ⇄
+                <span>Prompt Comparison</span>
+            </button>
+
+            <button class="nav" data-page="evaluation">
+                ◈
+                <span>Evaluation</span>
+            </button>
+
+            <button class="nav" data-page="documentation">
+                ▤
+                <span>Documentation</span>
+            </button>
+
+        </nav>
+
+        <div class="sidebar-bottom">
+
+            <div class="online">
+                <span></span>
+                Prototype Interface
+            </div>
+
+            <p>Frontend UI • Team 2</p>
+
+        </div>
+
+    </aside>
+
+
+    <!-- ================= MAIN ================= -->
+
+    <main>
+
+        <!-- TOP BAR -->
+
+        <header class="topbar">
+
+            <div class="mobile-menu" id="mobileMenu">
+                ☰
+            </div>
+
+            <div>
+
+                <small>
+                    AI SCHEDULING LAB
+                </small>
+
+                <h1 id="pageTitle">
+                    Schedule Conflict Resolver
+                </h1>
+
+            </div>
+
+            <div class="top-badge">
+                ● Ready
+            </div>
+
+        </header>
+
+
+        <!-- ================================================= -->
+        <!-- RESOLVER PAGE -->
+        <!-- ================================================= -->
+
+        <div class="page resolver-page">
+
+            <!-- HERO -->
+
+            <section class="hero">
+
+                <div>
+
+                    <div class="tag">
+                        ✦ Priority-aware scheduling
+                    </div>
+
+                    <h2>
+                        Resolve conflicts.
+                        <br>
+
+                        <span>
+                            Keep your day organized.
+                        </span>
+                    </h2>
+
+                    <p>
+                        Enter overlapping events, assign priorities,
+                        and review the proposed conflict-free schedule.
+                    </p>
+
+                </div>
+
+
+                <div class="hero-card">
+
+                    <div class="shield">
+                        ✓
+                    </div>
+
+                    <div>
+
+                        <b>
+                            Guardrails enabled
+                        </b>
+
+                        <small>
+                            Input validation & output verification
+                        </small>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- STATISTICS -->
+
+            <section class="stats">
+
+                <div class="stat">
+
+                    <div class="stat-icon blue">
+                        ▣
+                    </div>
+
+                    <div>
+
+                        <small>
+                            Total Events
+                        </small>
+
+                        <strong id="eventCount">
+                            3
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <div class="stat">
+
+                    <div class="stat-icon orange">
+                        !
+                    </div>
+
+                    <div>
+
+                        <small>
+                            Conflicts
+                        </small>
+
+                        <strong id="conflictCount">
+                            2
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <div class="stat">
+
+                    <div class="stat-icon green">
+                        ✓
+                    </div>
+
+                    <div>
+
+                        <small>
+                            Schedule Status
+                        </small>
+
+                        <strong id="status">
+                            Needs Review
+                        </strong>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- WORKSPACE -->
+
+            <section class="workspace">
+
+
+                <!-- INPUT CARD -->
+
+                <div class="card input-card">
+
+                    <div class="card-head">
+
+                        <div>
+
+                            <h3>
+                                Schedule Events
+                            </h3>
+
+                            <p>
+                                Add the events you want to resolve.
+                            </p>
+
+                        </div>
+
+                        <button
+                            class="add-btn"
+                            id="addEvent">
+
+                            + Add Event
+
+                        </button>
+
+                    </div>
+
+
+                    <!-- EVENTS -->
+
+                    <div id="eventList"></div>
+
+
+                    <!-- VALIDATION -->
+
+                    <div
+                        class="validation"
+                        id="validation">
+                    </div>
+
+
+                    <!-- RESOLVE -->
+
+                    <button
+                        class="resolve-btn"
+                        id="resolveBtn">
+
+                        ✦ Resolve Conflicts
+
+                    </button>
+
+                </div>
+
+
+
+                <!-- RESULT CARD -->
+
+                <div class="card result-card">
+
+                    <div class="card-head">
+
+                        <div>
+
+                            <h3>
+                                Schedule Preview
+                            </h3>
+
+                            <p id="resultSubtitle">
+                                Current input schedule
+                            </p>
+
+                        </div>
+
+                        <span
+                            class="badge warning"
+                            id="resultBadge">
+
+                            2 Conflicts
+
+                        </span>
+
+                    </div>
+
+
+                    <!-- TIMELINE -->
+
+                    <div
+                        class="timeline"
+                        id="timeline">
+                    </div>
+
+
+                    <!-- VERIFICATION -->
+
+                    <div class="verify">
+
+                        <div
+                            class="verify-icon"
+                            id="verifyIcon">
+
+                            ◷
+
+                        </div>
+
+                        <div>
+
+                            <b id="verifyTitle">
+                                Waiting for resolution
+                            </b>
+
+                            <small id="verifyText">
+                                Run the resolver to verify
+                                the final schedule.
+                            </small>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- EXPLANATION -->
+
+            <section class="card explanation">
+
+                <div class="card-head">
+
+                    <div>
+
+                        <h3>
+                            Why were events moved?
+                        </h3>
+
+                        <p>
+                            Explainable schedule changes appear here
+                            after resolution.
+                        </p>
+
+                    </div>
+
+                    <span class="badge green-badge">
+                        Explainable
+                    </span>
+
+                </div>
+
+
+                <div
+                    class="empty-explanation"
+                    id="explanation">
+
+                    <div>
+                        ◎
+                    </div>
+
+                    <p>
+                        No changes yet.
+                        Resolve the schedule to see explanations.
+                    </p>
+
+                </div>
+
+            </section>
+
+        </div>
+
+
+
+        <!-- ================================================= -->
+        <!-- PROMPT COMPARISON -->
+        <!-- ================================================= -->
+
+        <div
+            class="page hidden"
+            id="comparisonPage">
+
+            <section class="page-heading">
+
+                <div class="tag">
+                    Prompt engineering
+                </div>
+
+                <h2>
+                    Prompt Comparison
+                </h2>
+
+                <p>
+                    Compare your first prompt with the final
+                    improved prompt.
+                </p>
+
+            </section>
+
+
+            <div class="two-columns">
+
+
+                <!-- VERSION 1 -->
+
+                <div class="card prompt">
+
+                    <div class="prompt-label">
+                        VERSION 01
+                    </div>
+
+                    <h3>
+                        Basic Prompt
+                    </h3>
+
+                    <pre>
+Create a conflict-free schedule
+from the provided events.
+
+Preserve high-priority events
+where possible.
+
+Explain every change.
+                    </pre>
+
+
+                    <div class="metric bad">
+
+                        <span>
+                            Conflicts remaining
+                        </span>
+
+                        <b>
+                            2
+                        </b>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- VERSION 2 -->
+
+                <div class="card prompt selected">
+
+                    <div class="prompt-label">
+                        VERSION 02
+                    </div>
+
+                    <h3>
+                        Few-shot + Self-Critique
+                    </h3>
+
+                    <pre>
+Create a conflict-free schedule.
+
+Rules:
+
+1. Preserve higher priority events.
+2. Do not lose any event.
+3. Start must be before end.
+4. Explain every movement.
+
+Before finalizing, check for
+overlaps and revise if needed.
+                    </pre>
+
+
+                    <div class="metric good">
+
+                        <span>
+                            Conflicts remaining
+                        </span>
+
+                        <b>
+                            0
+                        </b>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- ITERATION -->
+
+            <div class="card">
+
+                <div class="card-head">
+
+                    <div>
+
+                        <h3>
+                            Iteration Flow
+                        </h3>
+
+                        <p>
+                            Prompt improvement history.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="steps">
+
+                    <div>
+
+                        <b>
+                            01
+                        </b>
+
+                        <span>
+                            Initial prompt
+                        </span>
+
+                        <small>
+                            Basic scheduling instruction
+                        </small>
+
+                    </div>
+
+
+                    <div>
+
+                        <b>
+                            02
+                        </b>
+
+                        <span>
+                            Few-shot example
+                        </span>
+
+                        <small>
+                            Added expected input/output example
+                        </small>
+
+                    </div>
+
+
+                    <div>
+
+                        <b>
+                            03
+                        </b>
+
+                        <span>
+                            Self-critique
+                        </span>
+
+                        <small>
+                            Added overlap and priority checks
+                        </small>
+
+                    </div>
+
+
+                    <div>
+
+                        <b>
+                            04
+                        </b>
+
+                        <span>
+                            Validation
+                        </span>
+
+                        <small>
+                            Application checks output independently
+                        </small>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- ================================================= -->
+        <!-- EVALUATION -->
+        <!-- ================================================= -->
+
+        <div
+            class="page hidden"
+            id="evaluationPage">
+
+            <section class="page-heading">
+
+                <div class="tag">
+                    Measured results
+                </div>
+
+                <h2>
+                    Evaluation
+                </h2>
+
+                <p>
+                    Display your labelled test set and measured metric.
+                </p>
+
+            </section>
+
+
+            <div class="metric-banner">
+
+                <div>
+
+                    <small>
+                        Prompt V1
+                    </small>
+
+                    <strong>
+                        70%
+                    </strong>
+
+                    <span>
+                        7 / 10
+                    </span>
+
+                </div>
+
+
+                <i>
+                    →
+                </i>
+
+
+                <div>
+
+                    <small>
+                        Final Prompt V2
+                    </small>
+
+                    <strong>
+                        100%
+                    </strong>
+
+                    <span>
+                        10 / 10
+                    </span>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="card table-card">
+
+                <div class="card-head">
+
+                    <div>
+
+                        <h3>
+                            10-Case Test Set
+                        </h3>
+
+                        <p>
+                            Replace demo results with your
+                            actual measurements.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                Case
+                            </th>
+
+                            <th>
+                                Scenario
+                            </th>
+
+                            <th>
+                                Expected Result
+                            </th>
+
+                            <th>
+                                V1
+                            </th>
+
+                            <th>
+                                V2
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody id="testTable">
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- ================================================= -->
+        <!-- DOCUMENTATION -->
+        <!-- ================================================= -->
+
+        <div
+            class="page hidden"
+            id="documentationPage">
+
+            <section class="page-heading">
+
+                <div class="tag">
+                    Team deliverable
+                </div>
+
+                <h2>
+                    Documentation
+                </h2>
+
+                <p>
+                    Keep your workflow, prompt history and
+                    contribution ready for the panel.
+                </p>
+
+            </section>
+
+
+
+            <div class="docs">
+
+
+                <div class="card doc">
+
+                    <h3>
+                        Problem
+                    </h3>
+
+                    <p>
+                        Given overlapping events and priorities,
+                        create a conflict-free schedule and
+                        explain every change.
+                    </p>
+
+                </div>
+
+
+
+                <div class="card doc">
+
+                    <h3>
+                        Workflow
+                    </h3>
+
+                    <div class="flow">
+
+                        Input
+                        →
+                        Validation
+                        →
+                        AI
+                        →
+                        Output Check
+                        →
+                        Final Schedule
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="card doc">
+
+                    <h3>
+                        Stretch Challenge
+                    </h3>
+
+                    <ul>
+
+                        <li>
+                            Priorities
+                        </li>
+
+                        <li>
+                            Dependencies
+                        </li>
+
+                        <li>
+                            Time zones
+                        </li>
+
+                        <li>
+                            Programmatic zero-conflict proof
+                        </li>
+
+                    </ul>
+
+                </div>
+
+
+
+                <div class="card doc">
+
+                    <h3>
+                        My Contribution
+                    </h3>
+
+                    <ul>
+
+                        <li>
+                            Frontend UI design
+                        </li>
+
+                        <li>
+                            User workflow
+                        </li>
+
+                        <li>
+                            Input guardrail interface
+                        </li>
+
+                        <li>
+                            Prompt comparison screen
+                        </li>
+
+                        <li>
+                            Evaluation screen
+                        </li>
+
+                        <li>
+                            Documentation & demo
+                        </li>
+
+                    </ul>
+
+                </div>
+
+
+
+                <div class="card doc wide">
+
+                    <h3>
+                        Prompt History
+                    </h3>
+
+                    <div class="history">
+
+                        <span>
+                            <b>11:05</b>
+                            V1 created
+                        </span>
+
+                        <span>
+                            <b>11:20</b>
+                            First test
+                        </span>
+
+                        <span>
+                            <b>11:35</b>
+                            Few-shot added
+                        </span>
+
+                        <span>
+                            <b>11:50</b>
+                            Self-critique added
+                        </span>
+
+                        <span>
+                            <b>12:10</b>
+                            Output validation added
+                        </span>
+
+                    </div>
+
+                    <small>
+                        Use your real timestamps before submission.
+                    </small>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+</div>
+
+
+<div
+    class="toast"
+    id="toast">
+</div>
+
+
+<script src="script.js"></script>
+
+</body>
+</html>
